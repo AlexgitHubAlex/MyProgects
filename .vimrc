@@ -14,46 +14,45 @@ set wildmenu            "При авто-дополнении в командн�
 set nocompatible
 filetype off  "обязательно!
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+set rtp+=~/.vim/bundle/vundle/
 
+call vundle#rc()
     filetype plugin indent on     " обязательно!
 
 "репозитории на github
     "Менеджер пакетов    
-    Plagin 'gmarik/vundle'
+    Bundle 'gmarik/vundle'
 
-   " Plagin 'tpope/vim-fugitive'
-   " Plagin 'lokaltog/vim-easymotion'
+   " Bundle 'tpope/vim-fugitive'
+   " Bundle 'lokaltog/vim-easymotion'
     
     "превращает в теги 
-    " Plagin 'rstacruz/sparkup', {'rtp': 'vim/'} 
+    " Bundle 'rstacruz/sparkup', {'rtp': 'vim/'} 
     "показывает дерево файлов
-    Plagin 'scrooloose/nerdtree'
+    Bundle 'scrooloose/nerdtree'
     "отображает красивую строку состояния
-    Plagin 'Lokaltog/vim-powerline'
-    " Plagin 'vim-scripts/clang-complete'
+    Bundle 'Lokaltog/vim-powerline'
+    " Bundle 'vim-scripts/clang-complete'
     "Коменты блоками по gcc
-    Plagin 'vim-scripts/tComment'
+    Bundle 'vim-scripts/tComment'
     "Построение дерева класса
-    Plagin 'majutsushi/tagbar'
-    Plagin 'vim-jp/ctags'
+    Bundle 'majutsushi/tagbar'
+    Bundle 'vim-jp/ctags'
     "
     "Супертаб работает как афтодополнение по табу
-    Plagin 'ervandew/supertab'
+    Bundle 'ervandew/supertab'
 
     ""репозитории vim/scripts
-    Plagin 'L9'
-    Plagin 'FuzzyFinder'
-    Plagin 'rails.vim'
-    Plagin 'Townk/vim-autoclose' 
+    Bundle 'L9'
+    Bundle 'FuzzyFinder'
+    Bundle 'rails.vim'
+    Bundle 'Townk/vim-autoclose' 
     "aфтозакрывающиеся кавычки
     
     "git репозитории (не на github)
-    "Plagin 'git://git.wincent.com/command-t.git'
-call vundle#end()            " required
-filetype plugin indent on    " required 
-
+    "Bundle 'git://git.wincent.com/command-t.git'
+"call vundle#end()            " required
+"filetype plugin indent on    " required
 "
 "execute pathogen#infect()
 
