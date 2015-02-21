@@ -129,7 +129,7 @@ int main(){
    // if (gatDouble(&k))printf("\n%f",k);
     struct Matr M;
     while(1){
-    if(input(&M)==0)break;
+    input(&M);
     output(M);
     vork(M);
     Free(&M);
