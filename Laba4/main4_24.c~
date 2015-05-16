@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+struct XY{
+    float x;
+    float y;                        
+};
+
+struct AABB{
+    struct XY center;               //координаты центра листа
+    struct XY halfDimension;        //середина ветки
+};
+
+struct QuadTree{
+#define QT_NODE_CAPACITY 4       //кол-во информации которую можно хранить в одном узле
+    struct AABB boundary;           //ограниченный параллелепипед выровненный по коорд.
+    struct XY points[QT_NODE_CAPACITY];
+    //Потомки
+    struct QuadTree* northWest;
+    struct QuadTree* northEast;
+    struct QuadTree* southWest;
+    struct QuadTree* southEast;
+}
+
+
+
+
+int main(){
+
+return 0;
+} 
+

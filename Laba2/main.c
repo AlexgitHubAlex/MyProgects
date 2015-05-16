@@ -1,0 +1,191 @@
+//Задание 15 
+//
+#include <stdio.h>
+#include <malloc.h>
+
+struct lineString{
+    char data;
+    struct lineString* next; 
+};
+
+struct lineString * newElement(char data){
+    struct lineString *new = malloc(sizeof(struct lineString));
+    if (new == NULL) printf("Error newElement");
+    new->data = data;
+    new->next = NULL;
+    return new;
+}
+
+void freeLine(struct lineString* delStr){
+    struct lineString* next;
+    if (delStr&&delStr->next){
+        next= delStr->next;
+        while (next){
+            free(delStr);
+            delStr = next;
+            next = next->next;
+        }
+        free(delStr);
+    }
+}
+
+int Input(struct lineString** obj){
+    char buf[21],*str;
+    int n,fl=0;
+    struct lineString* tek=NULL;
+    if(*obj!=NULL){
+        freeLine((*obj)->next);
+        (*obj)->next = NULL;   
+        tek = *obj;
+    }else{
+        *obj = newElement(0);
+        tek = *obj;
+    }
+    do{
+        n=scanf("%20[^\n]",buf);
+        if(n<0){
+            return 1;    
+        }
+        if(n>0){
+            for(str = buf;*str != '\0';++str){
+                tek->next = newElement(*str);
+                tek = tek->next;
+            }     
+        }
+        else{
+            scanf("%*c");       
+        }
+    }while(n>0);
+    return n;
+}
+
+
+void Print(struct lineString* obj){
+    if (obj){
+        printf("\'");
+        while(obj){
+            printf("%c",obj->data);
+            obj = obj->next;
+        }
+        printf("\'");
+    }
+}
+//возращает длинну слова от текущего местоположения до следующего 
+int lenSlova(struct lineString* str){
+    int i=0;
+    if (str&&str->next){
+        str = str->next;
+        while((str->data != ' ')&&(str->data != '\t')&&(str->data != 0)){
+            i++;
+            str = str->next;
+            if (!str) break;
+        }
+    }
+    return i;
+}
+int lenTabs(struct lineString* str){
+    int i=0;
+    if (str&&str->next){
+        str=str->next;
+        while(((str->data == ' ')||(str->data == '\t'))){
+            i++;
+            str = str->next;
+            if (!str){ 
+                break;}
+        }
+    }
+   return i;
+}
+//удаляет определённое кол-во символов начиная с символа в следующем элементе
+struct lineString* stepNextNSim(struct lineString* str,int smeshenie){
+    int i;
+    if(smeshenie>0)
+        for (i=0;str&&i<smeshenie;i++){
+            str= str->next;
+        }
+    return str;
+}
+
+struct lineString* newSlovo(struct lineString* q){
+    if(q){ 
+    q = stepNextNSim(q,lenSlova(q));
+    q = stepNextNSim(q,lenTabs(q));
+    }
+    return q;
+}
+
+
+//Необходимо передать элемент предшествужщий слову
+void delNSim(struct lineString* str,int t){
+    struct lineString* q,
+                     * qf;
+    if(str&&str->next) qf=str->next;
+    if(t>0){
+    q=stepNextNSim(str,t);
+    str->next = q->next;
+    q->next = NULL;
+    freeLine(qf);}
+}
+
+int srAr(int *mas,int kol_el){
+    int i,sum;
+    for(i=0,sum=0;i<kol_el;i++){
+        sum+=mas[i];
+    }
+    return sum/kol_el;
+}
+struct lineString* insertElemPust(struct lineString* from,char data){
+    struct lineString*        
+    vrem  = newElement(data);
+    vrem->next = from->next;
+    from->next = vrem;
+    return from->next;
+}
+
+void work(struct lineString* elem){
+    struct lineString *q=elem,*vrem;
+    int kol_slov=0,kol_bukv=0,tek_kol_bukv=0;
+    if (!(q&&q->next)) return;  
+         while (q&&q->next){
+        tek_kol_bukv = lenSlova(q);
+        if(tek_kol_bukv>0){ 
+            kol_bukv+=tek_kol_bukv;
+            kol_slov++;
+        }
+        q=newSlovo(q);
+    }
+
+    if(kol_slov!=0)
+       kol_bukv/=kol_slov;
+     q=elem;
+     while(q&&q->next){
+        delNSim(q,lenTabs(q));
+        tek_kol_bukv = lenSlova(q);
+        if (tek_kol_bukv==kol_bukv)
+        {
+            if(q!=elem) 
+                q=insertElemPust(q,' ');
+            q=stepNextNSim(q,tek_kol_bukv);
+        }else
+            delNSim(q,tek_kol_bukv==kol_bukv?0:tek_kol_bukv);
+            }
+}
+
+
+int main(){
+    struct lineString* myStr=NULL;
+        printf("Введите строку или нажмите Cntrl+D:\n");
+     while(!Input(&myStr))
+        {
+        printf("Введено: ");
+        Print(myStr);
+        printf("\n");
+        work(myStr);
+        printf("\nИзменено:");
+        Print(myStr);
+        printf("\nВведите строку:\n");
+    }
+    freeLine(myStr);
+    return 0;
+} 
+
