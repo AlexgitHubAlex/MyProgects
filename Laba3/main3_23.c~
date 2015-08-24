@@ -152,6 +152,10 @@ struct Item* getItem(struct TabItem* obj,int index){
     return obj->masive[index];
 }
 
+struct Item* insertInfo(struct Item*, struct Info*){
+    struct Item* vrem=malloc(struct Item);
+    vrem->
+}
 //---------------Дополнительные необходимые структуры---------------------------------
 
 int (*func[])(struct TabItem*) = {quit,view,include,find,delete};
